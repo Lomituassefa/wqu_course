@@ -35,13 +35,4 @@ plt.show()
 """
 
 
-""" Aggregate By State"""
-state_price_stats = (
-    df
-    .groupby("state")
-    ["price_per_m2"]
-    .agg(['mean', 'median','std'])
-    .sort_values(by = 'median', ascending = False)
-    .round(2)
-)
-print(f"Price per m2 Statistice by state {state_price_stats}")
+
