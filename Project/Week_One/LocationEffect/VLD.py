@@ -1,11 +1,12 @@
 """ Visualizing Location differnces"""
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(script_dir, "..", "..", "mexico-real-estate-combined-clean.csv")
 df =(
-    pd.read_csv("/home/lomi/Desktop/wqu_courses/wqu_course/Project/mexico-real-estate-combined-clean.csv")
+    pd.read_csv(file_path)
     .assign(price_per_m2 = lambda x: x["price_usd"]/x["area_m2"])
 )
 """ Aggregate By State"""
@@ -37,11 +38,8 @@ ax.boxplot(data_to_plot, tick_labels=target_states, orientation = 'vertical')
 ax.set_title("Price per m² Distribution: Most vs. Least Expensive States")
 ax.set_xlabel("Price per m² [USD]")
 ax.set_ylabel("State")
-
 plt.tight_layout()
 plt.show()
-
-
 """Quantifying Location vs Size Effects: Variance Decomposition
 Interpretation:If between state variance >>within state variance, then knowing which state 
 a property is in explain more of its price than any within-state factors (like size)

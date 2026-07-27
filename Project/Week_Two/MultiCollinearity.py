@@ -2,34 +2,21 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from Feature_Engineering import df_clean
+from Feature_Engineering import clean_files
 from sklearn.model_selection import train_test_split
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(script_dir,"Data", "buenos-aires-real-estate-*.csv")
+clean_df = clean_files(file_path)
+"Multi Collinearity "
+corr_matrix = clean_df.select_dtypes(include= "number").corr()
+fig, ax = plt.subplots(figsize=(14,12))
+sns.heatmap(corr_matrix, annot = True, fmt='.2f', cmap='coolwarm', ax=ax)
+ax.set_title('Correlation Matrix')
+plt.tight_layout()
+plt.show()
+                 # <--- Drop rows with missing values
 
-# "Multi Collinearity "
-# corr_matrix = df_clean.select_dtypes(include= "number").corr()
-# fig, ax = plt.subplots(figsize=(14,12))
-# sns.heatmap(corr_matrix, annot = True, fmt='.2f', cmap='coolwarm', ax=ax)
-# ax.set_title('Correlation Matrix')
-# plt.tight_layout()
-# plt.show()
-
-"""Final function to complete the cleaning process"""
-def clean_files(sub_cleaned):
-    drop_cols = [
-        "lat-lon", "place_with_parent_names",
-        "floor", "expenses", "rooms", "price",
-        "price_aprox_local_currency", "price_usd_per_m2",
-        "price_per_m2", "operation", "property_type", "currency",
-        "properati_url", "surface_total_in_m2"
-    ]
-    return (sub_cleaned
-            .drop(columns=drop_cols)
-            .dropna()
-            )                  # <--- Drop rows with missing values
-    
-clean_df = clean_files(df_clean)
-# print(df_clean.info())
-# print(clean_df)
 
 """ Target and  Features 'Linear Regression'"""
 
@@ -52,8 +39,6 @@ encoded_df = (
     )
     .drop(columns=['neighborhood'])  # <--- Remove the original text column (we no longer need it)
 )
-
-
 """Linear Regration introduction"""
 # Split into train and test sets (80/20 split)
 X_train, X_test, y_train, y_test = train_test_split(
