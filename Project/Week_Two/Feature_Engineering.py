@@ -70,14 +70,16 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__)) 
     df = merged_files()   # <-- no need to pass anything now, uses default
     nan_columns_percentage = (df.isna().sum(axis=0) * 100 / len(df)).sort_values()
-    fig1, ax = plt.subplots()
+    fig, ax = plt.subplots()
     ax.barh(y=nan_columns_percentage.index, width=nan_columns_percentage)
     ax.set_title('Percentage of Missing Values by Column')
     ax.set_xlabel('Percentage (%)')
     ax.set_ylabel('Column')
+    fig.savefig(os.path.join(script_dir, "Outputs","%missingValues.png"), dpi=100)
+    plt.close(fig)
     fig1, ax = plt.subplots()
     msno.matrix(df, color=(0.3, 0.4, 0.8), ax=ax)
-    fig1.savefig(os.path.join(script_dir, "Outputs","%missingValues.png"), dpi=100)
+    fig1.savefig(os.path.join(script_dir, "Outputs","matrix.png"), dpi=100)
     plt.close(fig1)
 
     corr_matrix = df.select_dtypes(include="number").corr()
