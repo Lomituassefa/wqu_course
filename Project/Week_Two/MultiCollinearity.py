@@ -5,9 +5,8 @@ import seaborn as sns
 from Feature_Engineering import clean_files
 from sklearn.model_selection import train_test_split
 import os
-script_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(script_dir,"Data", "buenos-aires-real-estate-*.csv")
-clean_df = clean_files(file_path)
+
+clean_df = clean_files()
 "Multi Collinearity "
 corr_matrix = clean_df.select_dtypes(include= "number").corr()
 fig, ax = plt.subplots(figsize=(14,12))
@@ -15,11 +14,8 @@ sns.heatmap(corr_matrix, annot = True, fmt='.2f', cmap='coolwarm', ax=ax)
 ax.set_title('Correlation Matrix')
 plt.tight_layout()
 plt.show()
-                 # <--- Drop rows with missing values
-
-
+# <--- Drop rows with missing values
 """ Target and  Features 'Linear Regression'"""
-
 target = "price_aprox_usd"
 features = [cols for cols in clean_df.columns if cols not in target]
 y = clean_df[target]

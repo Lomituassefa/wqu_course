@@ -6,10 +6,8 @@ from sklearn.metrics import mean_absolute_error, root_mean_squared_error, r2_sco
 from sklearn.model_selection import train_test_split
 from Feature_Engineering import clean_files
 import os
-script_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(script_dir,"Data", "buenos-aires-real-estate-*.csv")
-
-df = clean_files(file_path)
+script_dir = os.path.dirname(os.path.abspath(__file__)) 
+df = clean_files()
 # print(df.info())
 """2.2.1.1 Creating the Feature Matrix and Target Vector"""
 # the double bracket for the feature matrix 'X' is to create a 2D matrix 
@@ -21,8 +19,6 @@ X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_st
 y_mean =  y_train.mean()
 y_pred_baseline = [y_mean]*len(y_test)
 mae_baseline = mean_absolute_error(y_test, y_pred_baseline)
-
-
 model_lr = LinearRegression()
 model_lr.fit(X_train, y_train)
 # Training performance
@@ -66,7 +62,7 @@ axes[1].set_ylabel('Predicted Price (USD)')
 axes[1].set_title('Test Set: Predicted vs Actual')
 axes[1].legend()
 plt.tight_layout()
-fig1.savefig(os.path.join(script_dir, "predicted_vs_actual.png"), dpi=100)
+fig1.savefig(os.path.join(script_dir, "Outputs", "predicted_vs_actual.png"), dpi=100)
 plt.close(fig1) 
 
 """Residual Analysis"""
@@ -86,7 +82,7 @@ axes[1].set_xlabel('Predicted Price (USD)')
 axes[1].set_ylabel('Residuals (USD)')
 axes[1].set_title('Test Set: Residual Plot')
 plt.tight_layout()
-fig2.savefig(os.path.join(script_dir, "residuals.png"), dpi=100)
+fig2.savefig(os.path.join(script_dir, "Outputs","esiduals.png"), dpi=100)
 plt.close(fig2)
 """Line of Bestfit"""
 
@@ -101,5 +97,5 @@ ax.set_ylabel("Price [USD]")
 ax.set_title("Buenos Aires: Price vs. Surface Area")
 ax.legend()
 plt.tight_layout()
-fig3.savefig(os.path.join(script_dir, "bestfit.png"), dpi=100)
+fig3.savefig(os.path.join(script_dir, "Outputs","bestfit.png"), dpi=100)
 plt.close(fig3)
